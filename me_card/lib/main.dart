@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
@@ -36,67 +35,53 @@ class MyApp extends StatelessWidget {
                   letterSpacing: 2.5,
                   fontWeight: FontWeight.bold),
             ),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(10.0),
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.mail,
-                    color: Colors.teal,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    "my@mail.com",
-                    style: TextStyle(fontWeight: FontWeight.bold,
-                    color: Colors.teal.shade900),
-                  ),
-                ],
+            SizedBox(
+              height: 20.0,
+              width: 150.0,
+              child: Divider(
+                color: Colors.teal.shade100,
               ),
             ),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(10.0),
+            Card(
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-              child: Row(
-                children: [
-                  Icon(
-                    FontAwesomeIcons.skype,
-                    color: Colors.teal,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    "skypeUsername",
-                    style: TextStyle(fontWeight: FontWeight.bold,
-                        color: Colors.teal.shade900),
-                  ),
-                ],
+              child: ListTile(
+                leading: Icon(
+                  Icons.mail,
+                  color: Colors.teal,
+                ),
+                title: Text(
+                  "my@mail.com",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.teal.shade900),
+                ),
               ),
             ),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(10.0),
+            Card(
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-              child: Row(
-                children: [
-                  Icon(
-                    FontAwesomeIcons.github,
-                    color: Colors.teal,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    "liposo",
-                    style: TextStyle(fontWeight: FontWeight.bold,
-                        color: Colors.teal.shade900),
-                  ),
-                ],
+              child: ListTile(
+                leading: Icon(
+                  FontAwesomeIcons.skype,
+                  color: Colors.teal,
+                ),
+                title: Text(
+                  "skypeUsername",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.teal.shade900),
+                ),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+              child: ListTile(
+                leading: Icon(
+                  FontAwesomeIcons.github,
+                  color: Colors.teal,
+                ),
+                title: Text(
+                  "liposo",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.teal.shade900),
+                ),
               ),
             )
           ],
