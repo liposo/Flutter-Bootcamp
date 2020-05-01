@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:quizzler/icon_helper.dart';
 
-import 'question.dart';
 import 'quiz_helper.dart';
 
 QuizHelper quizHelper = QuizHelper();
@@ -33,50 +31,18 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> score = [];
-  int right = 0;
-  int questionsAnswered = 0;
-  Question currentQuestion;
+  int correctAnswers = 0;
 
-  final _random = new Random();
-
-  Icon checkIcon() {
-    return Icon(
-      Icons.check,
-      color: Colors.green,
-    );
-  }
-
-  Icon closeIcon() {
-    return Icon(
-      Icons.close,
-      color: Colors.red,
-    );
-  }
-
-  void _nextQuestion() {
-    int index = _random.nextInt(quizHelper.getNumberOfQuestions());
-    currentQuestion = quizHelper.getQuestion(index);
-
-    //TODO prevent repeated questions
-  }
-
-  void _evaluateAnswer(bool userAnswer) {
-    _updateScore(currentQuestion.answer == userAnswer);
-  }
-
-  void _updateScore(bool result) {
+  void _updateScore(bool userAnswer) {
     setState(() {
-      if (questionsAnswered < 16) {
-        if (result) {
-          right++;
-          score.add(checkIcon());
-        } else {
-          score.add(closeIcon());
-        }
-        questionsAnswered++;
-        if (questionsAnswered == 15) {
-          _showScore();
-        }
+      if (quizHelper.evaluateAnswer(userAnswer)) {
+        correctAnswers++;
+        score.add(IconHelper().checkIcon());
+      } else {
+        score.add(IconHelper().closeIcon());
+      }
+      if (quizHelper.isFinished()) {
+        _showScore();
       }
     });
   }
@@ -93,7 +59,7 @@ class _QuizPageState extends State<QuizPage> {
           // ignore: missing_return
           onWillPop: () {},
           child: AlertDialog(
-            content: Text('Score: $right/15'),
+            content: Text('Score: $correctAnswers'),
             actions: [
               FlatButton(
                 child: Text('Restart'),
@@ -112,20 +78,16 @@ class _QuizPageState extends State<QuizPage> {
   void _restart() {
     setState(() {
       score = [];
-      right = 0;
-      questionsAnswered = 0;
-      currentQuestion = null;
-      _nextQuestion();
+      correctAnswers = 0;
+      quizHelper.startQuiz();
     });
   }
 
   @override
   void initState() {
     score = [];
-    right = 0;
-    questionsAnswered = 0;
-    currentQuestion = null;
-    _nextQuestion();
+    correctAnswers = 0;
+    quizHelper.startQuiz();
     super.initState();
   }
 
@@ -141,7 +103,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                currentQuestion.question,
+                quizHelper.getCurrentQuestion(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25.0, color: Colors.white),
               ),
@@ -161,8 +123,7 @@ class _QuizPageState extends State<QuizPage> {
                     style: TextStyle(fontSize: 20.0, color: Colors.white),
                   ),
                   onPressed: () {
-                    _evaluateAnswer(true);
-                    _nextQuestion();
+                    _updateScore(true);
                   },
                 ),
               ),
@@ -178,8 +139,7 @@ class _QuizPageState extends State<QuizPage> {
                     style: TextStyle(fontSize: 20.0, color: Colors.white),
                   ),
                   onPressed: () {
-                    _evaluateAnswer(false);
-                    _nextQuestion();
+                    _updateScore(false);
                   },
                 ),
               ),

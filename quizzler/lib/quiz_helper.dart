@@ -1,6 +1,13 @@
+import 'dart:math';
+
 import 'question.dart';
 
 class QuizHelper {
+  final _random = new Random();
+
+  Question _currentQuestion;
+  List<Question> _answeredQuestions = [];
+
   List<Question> _questions = [
     Question(
         'As far as has ever been reported, no-one has ever seen an ostrich bury its head in the sand.',
@@ -40,15 +47,37 @@ class QuizHelper {
     Question('The world\’s oldest known tree is over 9000 years old.', true)
   ];
 
-  Question getQuestion(int index) {
-    return _questions[index];
+  String getCurrentQuestion() {
+    return _currentQuestion.getQuestion();
   }
 
-  List<Question> getAllQuestions() {
-    return _questions;
+  void startQuiz() {
+    _answeredQuestions = [];
+    nextQuestion();
   }
 
-  int getNumberOfQuestions() {
-    return _questions.length;
+  void nextQuestion() {
+    int index = _random.nextInt(_questions.length);
+    while (_isQuestionAnswered(_questions[index])) {
+      index = _random.nextInt(_questions.length);
+    }
+    _currentQuestion = _questions[index];
+  }
+
+  bool _isQuestionAnswered(Question question) {
+    print(_answeredQuestions.contains(question));
+    return _answeredQuestions.contains(question);
+  }
+
+  bool isFinished() {
+    return _answeredQuestions.length > 14;
+  }
+
+  bool evaluateAnswer(bool userAnswer) {
+    _answeredQuestions.add(_currentQuestion);
+    bool result = _currentQuestion.getAnswer() == userAnswer;
+    nextQuestion();
+
+    return result;
   }
 }
