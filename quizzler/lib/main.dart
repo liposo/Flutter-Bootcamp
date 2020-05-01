@@ -2,6 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'question.dart';
+import 'quiz_helper.dart';
+
+QuizHelper quizHelper = QuizHelper();
+
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -27,7 +32,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Question> questions = [];
   List<Icon> score = [];
   int right = 0;
   int questionsAnswered = 0;
@@ -49,66 +53,18 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  void buildQuestionList() {
-    questions.add(Question(
-        'As far as has ever been reported, no-one has ever seen an ostrich bury its head in the sand.',
-        true));
-    questions.add(Question(
-        'Approximately one quarter of human bones are in the feet.', true));
-    questions.add(Question(
-        'In ancient Rome, a special room called a vomitorium was available for diners to purge food in during meals.',
-        false));
-    questions.add(Question(
-        'The average person will shed 10 pounds of skin during their lifetime.',
-        false));
-    questions.add(
-        Question('The Great Wall Of China is visible from the moon.', false));
-    questions.add(Question(
-        'Virtually all Las Vegas gambling casinos ensure that they have no clocks.',
-        true));
-    questions.add(Question('The first tea bags were made of silk.', true));
-    questions.add(Question('Chai tea comes from Russia.', false));
-    questions.add(Question(
-        'Horses, ponies, donkeys, mules, and zebras are also known as equines.',
-        true));
-    questions
-        .add(Question('The first domesticated animal was the horse.', false));
-    questions.add(Question(
-        'Coffee became a popular drink in North America when the Boston Tea Party made tea hard to come by.',
-        true));
-    questions.add(Question(
-        'Most of the world’s coffee in the world is produced in Brazil.',
-        true));
-    questions.add(
-        Question('The original name of The Beatles was the Quarrymen.', true));
-    questions.add(
-        Question('The driest place on Earth is the Sahara Desert.', false));
-    questions
-        .add(Question('The world’s largest continent is Antarctica.', false));
-    questions.add(Question('Centipedes always have 100 feet.', false));
-    questions
-        .add(Question('Muscle turns to fat if you stop exercising.', false));
-    questions.add(Question(
-        'The world’s smallest book is 1cm wide, 1cm tall and 4mm deep.',
-        false));
-    questions.add(Question(
-        'Olympus Mons, Mount Olympus on Mars, is taller than Mount Everest.',
-        true));
-    questions.add(Question(
-        'The world\’s oldest known tree is over 9000 years old.', true));
+  void _nextQuestion() {
+    int index = _random.nextInt(quizHelper.getNumberOfQuestions());
+    currentQuestion = quizHelper.getQuestion(index);
+
+    //TODO prevent repeated questions
   }
 
-  void nextQuestion() {
-    int index = _random.nextInt(questions.length);
-    currentQuestion = questions[index];
-    questions.removeAt(index);
+  void _evaluateAnswer(bool userAnswer) {
+    _updateScore(currentQuestion.answer == userAnswer);
   }
 
-  void evaluateAnswer(Question question, bool userAnswer) {
-    updateScore(question.answer == userAnswer);
-  }
-
-  void updateScore(bool result) {
+  void _updateScore(bool result) {
     setState(() {
       if (questionsAnswered < 16) {
         if (result) {
@@ -143,7 +99,7 @@ class _QuizPageState extends State<QuizPage> {
                 child: Text('Restart'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  restart();
+                  _restart();
                 },
               ),
             ],
@@ -153,27 +109,23 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  void restart() {
+  void _restart() {
     setState(() {
-      questions = [];
       score = [];
       right = 0;
       questionsAnswered = 0;
       currentQuestion = null;
-      buildQuestionList();
-      nextQuestion();
+      _nextQuestion();
     });
   }
 
   @override
   void initState() {
-    questions = [];
     score = [];
     right = 0;
     questionsAnswered = 0;
     currentQuestion = null;
-    buildQuestionList();
-    nextQuestion();
+    _nextQuestion();
     super.initState();
   }
 
@@ -209,8 +161,8 @@ class _QuizPageState extends State<QuizPage> {
                     style: TextStyle(fontSize: 20.0, color: Colors.white),
                   ),
                   onPressed: () {
-                    evaluateAnswer(currentQuestion, true);
-                    nextQuestion();
+                    _evaluateAnswer(true);
+                    _nextQuestion();
                   },
                 ),
               ),
@@ -226,8 +178,8 @@ class _QuizPageState extends State<QuizPage> {
                     style: TextStyle(fontSize: 20.0, color: Colors.white),
                   ),
                   onPressed: () {
-                    evaluateAnswer(currentQuestion, false);
-                    nextQuestion();
+                    _evaluateAnswer(false);
+                    _nextQuestion();
                   },
                 ),
               ),
@@ -239,20 +191,5 @@ class _QuizPageState extends State<QuizPage> {
         ),
       ],
     );
-  }
-}
-
-class Question {
-  String question;
-  bool answer;
-
-  Question(this.question, this.answer);
-
-  String getQuestion() {
-    return question;
-  }
-
-  bool getAnswer() {
-    return answer;
   }
 }
