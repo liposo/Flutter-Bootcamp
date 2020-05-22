@@ -6,6 +6,7 @@ import 'custom_card.dart';
 import 'icon_text.dart';
 
 const bottomContainerHeight = 80.0;
+enum Gender { MALE, FEMALE }
 
 class InputPage extends StatefulWidget {
   @override
@@ -13,6 +14,14 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender selectedGender;
+
+  void switchGender(Gender gender) {
+    setState(() {
+      selectedGender = gender;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,27 +32,31 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      print("!");
-                    },
-                    child: CustomCard(
-                      child: IconText(
-                        text: "MALE",
-                        icon: FontAwesomeIcons.mars,
-                      ),
-                      color: CustomTheme.inactiveCardBackground,
+                  child: CustomCard(
+                    child: IconText(
+                      text: "MALE",
+                      icon: FontAwesomeIcons.mars,
                     ),
+                    color: selectedGender == Gender.MALE
+                        ? CustomTheme.activeCardBackground
+                        : CustomTheme.inactiveCardBackground,
+                    onTap: () {
+                      switchGender(Gender.MALE);
+                    },
                   ),
                 ),
                 Expanded(
                   child: CustomCard(
-                    child: IconText(
-                      text: "FEMALE",
-                      icon: FontAwesomeIcons.venus,
-                    ),
-                    color: CustomTheme.inactiveCardBackground,
-                  ),
+                      child: IconText(
+                        text: "FEMALE",
+                        icon: FontAwesomeIcons.venus,
+                      ),
+                      color: selectedGender == Gender.FEMALE
+                          ? CustomTheme.activeCardBackground
+                          : CustomTheme.inactiveCardBackground,
+                      onTap: () {
+                        switchGender(Gender.FEMALE);
+                      }),
                 )
               ],
             ),
