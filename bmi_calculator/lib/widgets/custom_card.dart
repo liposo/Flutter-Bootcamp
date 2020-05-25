@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const borderRadius = 10.0;
+const borderRadius = 8.0;
 const margin = 15.0;
 
 class CustomCard extends StatelessWidget {

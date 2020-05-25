@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme.dart';
 import 'custom_card.dart';
+import 'custom_slider.dart';
 import 'icon_text.dart';
 
 const bottomContainerHeight = 80.0;
@@ -15,6 +16,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
+  int height = 180;
 
   void switchGender(Gender gender) {
     setState(() {
@@ -22,10 +24,16 @@ class _InputPageState extends State<InputPage> {
     });
   }
 
+  void setSliderValue(double value) {
+    setState(() {
+      height = value.round();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomTheme.getAppBar(),
+      appBar: CustomTheme.appBar,
       body: Column(
         children: [
           Expanded(
@@ -64,6 +72,9 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: CustomCard(
               color: CustomTheme.activeCardBackground,
+              child: CustomSlider(
+                  value: height,
+                  onChange: (double newValue) => {setSliderValue(newValue)}),
             ),
           ),
           Expanded(

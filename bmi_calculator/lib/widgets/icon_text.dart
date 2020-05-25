@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-const textStyle = TextStyle(
-  fontSize: 18.8,
-  color: CustomTheme.textColor,
-);
-
 const iconSize = 80.0;
 const sizedBoxHeight = 15.0;
 
@@ -30,7 +25,7 @@ class IconText extends StatelessWidget {
         ),
         Text(
           this.text,
-          style: textStyle,
+          style: CustomTheme.textStyle,
         ),
       ],
     );
