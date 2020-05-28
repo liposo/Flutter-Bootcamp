@@ -1,13 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme.dart';
 import 'custom_card.dart';
+import 'custom_increment.dart';
 import 'custom_slider.dart';
 import 'icon_text.dart';
 
 const bottomContainerHeight = 80.0;
 enum Gender { MALE, FEMALE }
+enum IncrementType { ADD, SUBTRACT }
 
 class InputPage extends StatefulWidget {
   @override
@@ -17,6 +20,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
   int height = 180;
+  int weight = 60;
+  int age = 30;
 
   void switchGender(Gender gender) {
     setState(() {
@@ -27,6 +32,18 @@ class _InputPageState extends State<InputPage> {
   void setSliderValue(double value) {
     setState(() {
       height = value.round();
+    });
+  }
+
+  void changeWeight(IncrementType type) {
+    setState(() {
+      type == IncrementType.ADD ? weight++ : weight--;
+    });
+  }
+
+  void changeAge(IncrementType type) {
+    setState(() {
+      type == IncrementType.ADD ? age++ : age--;
     });
   }
 
@@ -83,11 +100,26 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: CustomCard(
                     color: CustomTheme.activeCardBackground,
+                    child: CustomIncrement(
+                      title: "WEIGHT",
+                      subText: "Kg",
+                      value: weight,
+                      incrementAction: () => {changeWeight(IncrementType.ADD)},
+                      decrementAction: () =>
+                          {changeWeight(IncrementType.SUBTRACT)},
+                    ),
                   ),
                 ),
                 Expanded(
                   child: CustomCard(
                     color: CustomTheme.activeCardBackground,
+                    child: CustomIncrement(
+                      title: "AGE",
+                      value: age,
+                      incrementAction: () => {changeAge(IncrementType.ADD)},
+                      decrementAction: () =>
+                          {changeAge(IncrementType.SUBTRACT)},
+                    ),
                   ),
                 )
               ],
@@ -100,6 +132,12 @@ class _InputPageState extends State<InputPage> {
             ),
             width: double.infinity,
             height: bottomContainerHeight,
+            child: Center(
+              child: Text(
+                "Calculate BMI",
+                style: CustomTheme.bottomTextStyle,
+              ),
+            ),
           ),
         ],
       ),

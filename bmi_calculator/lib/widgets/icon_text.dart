@@ -25,7 +25,7 @@ class IconText extends StatelessWidget {
         ),
         Text(
           this.text,
-          style: CustomTheme.textStyle,
+          style: CustomTheme.regularTextStyle,
         ),
       ],
     );

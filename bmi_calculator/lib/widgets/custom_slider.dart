@@ -22,7 +22,7 @@ class CustomSlider extends StatelessWidget {
       children: [
         Text(
           "HEIGHT",
-          style: CustomTheme.textStyle,
+          style: CustomTheme.regularTextStyle,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +35,7 @@ class CustomSlider extends StatelessWidget {
             ),
             Text(
               "cm",
-              style: CustomTheme.textStyle,
+              style: CustomTheme.smallTextStyle,
             ),
           ],
         ),
