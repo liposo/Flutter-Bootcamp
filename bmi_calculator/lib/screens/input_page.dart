@@ -1,14 +1,15 @@
+import 'package:bmicalculator/widgets/bottom_navigator_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme.dart';
-import 'custom_card.dart';
-import 'custom_increment.dart';
-import 'custom_slider.dart';
-import 'icon_text.dart';
+import '../widgets/custom_card.dart';
+import '../widgets/custom_increment.dart';
+import '../widgets/custom_slider.dart';
+import '../widgets/icon_text.dart';
+import 'result_page.dart';
 
-const bottomContainerHeight = 80.0;
 enum Gender { MALE, FEMALE }
 enum IncrementType { ADD, SUBTRACT }
 
@@ -125,19 +126,9 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: CustomTheme.bottomContainer,
-            margin: EdgeInsets.only(
-              top: 10.0,
-            ),
-            width: double.infinity,
-            height: bottomContainerHeight,
-            child: Center(
-              child: Text(
-                "Calculate BMI",
-                style: CustomTheme.bottomTextStyle,
-              ),
-            ),
+          BottomNavigatorButton(
+            title: "Calculate",
+            pageToGo: ResultPage(),
           ),
         ],
       ),

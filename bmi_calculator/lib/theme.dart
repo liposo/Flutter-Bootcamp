@@ -8,11 +8,14 @@ class CustomTheme {
   static const Color activeColor = Color(0xFFEB1555);
   static const Color textColor = Color(0xFF8D8E98);
   static const Color roundButtonColor = Color(0xFF4C4F5E);
+  static const Color resultTextColor = Color(0xFF24D876);
 
   static const largeFontSize = 45.9;
   static const mediumFontSize = 23.50;
   static const regularFontSize = 18.8;
   static const smallFontSize = 12.03;
+
+  static const bottomContainerHeight = 80.0;
 
   static const smallTextStyle = TextStyle(
     fontSize: smallFontSize,
@@ -33,6 +36,12 @@ class CustomTheme {
     fontSize: mediumFontSize,
     color: Colors.white,
     fontWeight: FontWeight.w900,
+  );
+
+  static const resultTextStyle = TextStyle(
+    fontSize: mediumFontSize,
+    color: resultTextColor,
+    fontWeight: FontWeight.bold,
   );
 
   static final theme = ThemeData.dark().copyWith(
