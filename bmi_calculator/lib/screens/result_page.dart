@@ -1,3 +1,4 @@
+import 'package:bmicalculator/calculator.dart';
 import 'package:bmicalculator/theme.dart';
 import 'package:bmicalculator/widgets/bottom_navigator_button.dart';
 import 'package:bmicalculator/widgets/custom_card.dart';
@@ -8,9 +9,9 @@ import 'input_page.dart';
 const padding = 15.0;
 
 class ResultPage extends StatelessWidget {
-  ResultPage({this.result});
+  ResultPage({this.bmiCalculator});
 
-  final result;
+  final Calculator bmiCalculator;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +40,15 @@ class ResultPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Normal",
+                    bmiCalculator.getResult(),
                     style: CustomTheme.resultTextStyle,
                   ),
                   Text(
-                    "24.5",
+                    bmiCalculator.getBMI(),
                     style: CustomTheme.largeTextStyle,
                   ),
                   Text(
-                    "Text about your BMI...etc etc etc",
+                    bmiCalculator.getInterpretation(),
                     style: CustomTheme.regularTextStyle,
                   ),
                 ],
@@ -57,7 +58,7 @@ class ResultPage extends StatelessWidget {
           BottomNavigatorButton(
             title: "Recalculate",
             pageToGo: InputPage(),
-          ),
+          )
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../calculator.dart';
 import '../theme.dart';
 import '../widgets/custom_card.dart';
 import '../widgets/custom_increment.dart';
@@ -128,7 +129,9 @@ class _InputPageState extends State<InputPage> {
           ),
           BottomNavigatorButton(
             title: "Calculate",
-            pageToGo: ResultPage(),
+            pageToGo: ResultPage(
+              bmiCalculator: Calculator(weight: weight, height: height),
+            ),
           ),
         ],
       ),
