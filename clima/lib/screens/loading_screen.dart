@@ -9,6 +9,13 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   Position position;
   String positionAsString;
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
+
   void getLocation() async {
     position = await Geolocator().getCurrentPosition(
       desiredAccuracy: LocationAccuracy.low,
@@ -27,16 +34,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RaisedButton(
-              onPressed: () {
-                getLocation();
-              },
-              child: Text("Get Location"),
-            ),
             SizedBox(
               height: 20.0,
             ),
-            Text(position != null ? positionAsString : "No Location")
+            Text(position != null ? positionAsString : "Getting location...")
           ],
         ),
       ),
