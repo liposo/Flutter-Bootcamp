@@ -1,4 +1,5 @@
 import 'package:clima/services/location.dart';
+import 'package:clima/services/networking.dart';
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -12,13 +13,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    updateLocation(location);
+    updateLocationData(location);
   }
 
-  void updateLocation(Location location) async {
+  void updateLocationData(Location location) async {
     await location.getLocation();
-    print(location.latitude);
-    print(location.longitude);
+
+    Network network = Network();
+    var weatherData = await network.getData(location);
   }
 
   @override
