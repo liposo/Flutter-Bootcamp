@@ -14,11 +14,8 @@ class Network {
         .load()
         .then((value) => apiKey = value.apiKey);
 
-    double latitude = location.latitude;
-    double longitude = location.longitude;
-
-    http.Response response =
-        await http.get('$apiUrl?lat=$latitude&lon=$longitude&appid=$apiKey');
+    http.Response response = await http.get(
+        '$apiUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
